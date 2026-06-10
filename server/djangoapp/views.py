@@ -167,10 +167,9 @@ def add_review(request):
             })
 
         except:
-
             return JsonResponse({
                 "status": 401,
-                "message": "Error in posting review"
+                "message": "Error in posting review, 401 error"
             })
 
     else:

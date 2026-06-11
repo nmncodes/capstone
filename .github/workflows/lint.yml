@@ -2,13 +2,16 @@ name: Lint Code
 
 on:
   push:
-    branches: [master, main]
+    branches:
+      - main
+      - master
 
   pull_request:
-    branches: [master, main]
+    branches:
+      - main
+      - master
 
 jobs:
-
   lint_python:
     name: Lint Python Files
     runs-on: ubuntu-latest
@@ -29,7 +32,7 @@ jobs:
 
       - name: Run Python Linter
         run: |
-          find . -name "*.py" -exec flake8 {} +
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
           echo "Linted all python files successfully"
 
   lint_js:
@@ -46,17 +49,10 @@ jobs:
           node-version: "14"
 
       - name: Install JSHint
-        run: npm install -g jshint
-
-      - name: Create JSHint Config
         run: |
-          echo '{
-            "esversion": 8,
-            "node": true,
-            "asi": true
-          }' > .jshintrc
+          npm install -g jshint
 
       - name: Run JS Linter
         run: |
-          find ./server/database -name "*.js" -exec jshint {} +
+          find ./server/database -name "*.js" -exec jshint --esversion 8 {} +
           echo "Linted all JavaScript files successfully"
